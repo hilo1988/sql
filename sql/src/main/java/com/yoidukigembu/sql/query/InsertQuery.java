@@ -10,8 +10,37 @@ import com.yoidukigembu.sql.entity.AbstractBaseEntity;
  */
 public abstract class InsertQuery<E extends AbstractBaseEntity> extends AbstractUpdateBaseQuery<E> {
 
-	public InsertQuery(Class<E> entityClass) {
-		super(entityClass);
+
+	public InsertQuery(Class<E> entityClass, E entity) {
+		super(entityClass, entity);
+	}
+
+
+	/**
+	 * 指定のプロパティのみを挿入対象とします。
+	 *
+	 * @param propertyNames
+	 *            挿入対象とするプロパティ名の並び
+	 * @return このインスタンス自身
+	 */
+	@Override
+	public InsertQuery<E> includes(CharSequence... columnNames) {
+		super.includes(columnNames);
+		return this;
+	}
+
+
+	/**
+	 * 指定のプロパティを挿入対象から除外します。
+	 *
+	 * @param propertyNames
+	 *            挿入対象から除外するプロパティ名の並び
+	 * @return このインスタンス自身
+	 */
+	@Override
+	public InsertQuery<E> excludes(CharSequence... columnNames) {
+		super.excludes(columnNames);
+		return this;
 	}
 
 
@@ -20,25 +49,25 @@ public abstract class InsertQuery<E extends AbstractBaseEntity> extends Abstract
      *
      * @return このインスタンス自身
      */
-	public abstract InsertQuery<E> excludesNull();
+	@Override
+	public InsertQuery<E> excludesNull() {
+		super.excludesNull();
+		return this;
+	}
+
 
 	/**
-     * 指定のプロパティのみを挿入対象とします。
-     *
-     * @param propertyNames
-     *            挿入対象とするプロパティ名の並び
-     * @return このインスタンス自身
-     */
-	public abstract InsertQuery<E> includes(CharSequence... propertyNames);
+	 * NULLを対象にする。
+	 * @param NULLを許可するカラム名
+	 * @return
+	 */
+	@Override
+	public InsertQuery<E> includesNull(CharSequence... nullableColumnNames) {
+		super.includesNull(nullableColumnNames);
+		return this;
+	}
 
-    /**
-     * 指定のプロパティを挿入対象から除外します。
-     *
-     * @param propertyNames
-     *            挿入対象から除外するプロパティ名の並び
-     * @return このインスタンス自身
-     */
-	public abstract InsertQuery<E> excludes(CharSequence... propertyNames);
+
 
 
 	/**
