@@ -1,8 +1,15 @@
 package com.yoidukigembu.sql.enums;
 
+/**
+ * WHEREのデリミタ
+ * @author hilo
+ *
+ */
 public enum WhereDelimiter {
 
+	/** AND */
 	AND ("AND"),
+	/** OR */
 	OR ("OR")
 	;
 	

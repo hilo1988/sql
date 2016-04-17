@@ -1,8 +1,15 @@
 package com.yoidukigembu.sql.enums;
 
+/**
+ * ORDER BY のタイプ
+ * @author hilo
+ *
+ */
 public enum OrderType {
 
+	/** 昇順 */
 	ASC("ASC"),
+	/** 降順 */
 	DESC("DESC")
 	;
 	
