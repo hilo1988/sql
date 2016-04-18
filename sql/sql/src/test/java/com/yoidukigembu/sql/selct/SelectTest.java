@@ -17,7 +17,7 @@ public class SelectTest extends TestCase {
 		Select<DummyEntity> select = Select.from(DummyEntity.class);
 
 		select.generate((sql, params) -> {
-			assertEquals("SELECT * FROM dummy", sql);
+			assertEquals("SELECT T.* FROM dummy T", sql);
 			assertEquals(0, params.size());
 		});
 	}
