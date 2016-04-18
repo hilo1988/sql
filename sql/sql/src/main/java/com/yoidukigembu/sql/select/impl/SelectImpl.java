@@ -1,5 +1,6 @@
 package com.yoidukigembu.sql.select.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -39,9 +40,9 @@ public class SelectImpl<T> implements Select<T> {
 
 	private List<Object> params;
 	
-	public SelectImpl(Optional<String> schema, Optional<String> alias, String tableName) {
-		this.schema = schema;
-		this.alias = alias;
+	public SelectImpl(String schema, String alias, String tableName) {
+		this.schema = Optional.ofNullable(schema);
+		this.alias = Optional.ofNullable(alias);
 		this.tableName = tableName;
 	}
 
@@ -49,10 +50,10 @@ public class SelectImpl<T> implements Select<T> {
 		return schema;
 	}
 
-	public Optional<String> getAlias() {
-		return alias;
+	public String getAlias() {
+		return alias.orElse("");
 	}
-
+	
 	public String getTableName() {
 		return tableName;
 	}
@@ -111,10 +112,14 @@ public class SelectImpl<T> implements Select<T> {
 	
 	@Override
 	public void generate(QueryGenerator generator) {
+		this.params = new ArrayList<>();
+		
 		StringBuilder sql = new StringBuilder("SELECT ");
 		sql.append(createColumn())
 			.append(" FROM ")
 			.append(tableName);
+		
+		alias.ifPresent(a -> sql.append(" ").append(a));
 		
 		addWhere(sql);
 		
@@ -129,9 +134,13 @@ public class SelectImpl<T> implements Select<T> {
 		generator.generate(sql.toString(), params);
 	}
 	
+	/**
+	 * カラムの作成
+	 * @return
+	 */
 	private CharSequence createColumn() {
 		if (columnList == null || columnList.isEmpty()) {
-			return "*";
+			return alias(alias, "*");
 		}
 		
 		StringBuilder sb = new StringBuilder();
@@ -140,7 +149,7 @@ public class SelectImpl<T> implements Select<T> {
 			if (index++ > 0) {
 				sb.append(", ");
 			}
-			sb.append(column);
+			sb.append(alias(alias, column));
 		}
 		
 		return sb;

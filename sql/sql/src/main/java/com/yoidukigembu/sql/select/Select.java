@@ -17,13 +17,12 @@ import com.yoidukigembu.sql.where.Where;
 public interface Select<T> {
 	
 	public static <T> Select<T> from(Class<T> entityClass) {
-		Table table = entityClass.getAnnotation(Table.class);
-		return new SelectImpl<>(Optional.ofNullable(table.schema()), Optional.empty(), table.name());
+		return from(entityClass, null);
 	}
 	
 	public static <T> Select<T> from(Class<T> entityClass, String alias) {
 		Table table = entityClass.getAnnotation(Table.class);
-		return new SelectImpl<>(Optional.ofNullable(table.schema()), Optional.ofNullable(alias), table.name());
+		return new SelectImpl<>(table.schema(), alias, table.name());
 	}
 	
 	
@@ -73,6 +72,11 @@ public interface Select<T> {
 	 * ORDER BYを指定
 	 */
 	public Select<T> orderBy(CharSequence orderBy);
+	
+	public default String alias(Optional<String> alias, String column) {
+		return alias.map(a -> String.format("%s.%s", a, column))
+				.orElse(column);
+	}
 	
 	/**
 	 * SQL文を生成
