@@ -1,14 +1,15 @@
-package com.yoidukigembu.sql.select;
+package com.yoidukigembu.sql.select.impl;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import com.yoidukigembu.sql.orderBy.OrderBy;
+import com.yoidukigembu.sql.select.Select;
 import com.yoidukigembu.sql.where.Where;
 
-public class SelectBuilderImpl implements SelectBuilder {
-	
+public class SelectImpl<T> implements Select<T> {
+
 	/** スキーマ */
 	private final Optional<String> schema;
 	
@@ -34,11 +35,11 @@ public class SelectBuilderImpl implements SelectBuilder {
 	private Optional<List<String>> groupByList = Optional.empty();
 	
 	/** ORDER BY */
-	private Optional<CharSequence> orderBy;
+	private Optional<CharSequence> orderBy = Optional.empty();
 
 	private List<Object> params;
 	
-	SelectBuilderImpl(Optional<String> schema, Optional<String> alias, String tableName) {
+	public SelectImpl(Optional<String> schema, Optional<String> alias, String tableName) {
 		this.schema = schema;
 		this.alias = alias;
 		this.tableName = tableName;
@@ -57,52 +58,52 @@ public class SelectBuilderImpl implements SelectBuilder {
 	}
 
 	@Override
-	public SelectBuilder columns(String... columns) {
+	public Select<T> columns(String... columns) {
 		return columns(Arrays.asList(columns));
 	}
 
 	@Override
-	public SelectBuilder columns(List<String> columns) {
+	public Select<T> columns(List<String> columns) {
 		this.columnList = columns;
 		return this;
 	}
 
 	@Override
-	public SelectBuilder where(Where where) {
+	public Select<T> where(Where where) {
 		this.where = Optional.of(where);
 		return this;
 	}
 
 	@Override
-	public SelectBuilder limit(int limit) {
+	public Select<T> limit(int limit) {
 		this.limit = Optional.of(limit);
 		return this;
 	}
 
 	@Override
-	public SelectBuilder offset(int offset) {
+	public Select<T> offset(int offset) {
 		this.offset = Optional.of(offset);
 		return this;
 	}
 
 	@Override
-	public SelectBuilder groupBy(String... columns) {
+	public Select<T> groupBy(String... columns) {
 		return groupBy(Arrays.asList(columns));
 	}
 
 	@Override
-	public SelectBuilder groupBy(List<String> columns) {
+	public Select<T> groupBy(List<String> columns) {
 		this.groupByList = Optional.of(columns);
 		return this;
 	}
 
 	@Override
-	public SelectBuilder orderBy(OrderBy orderBy) {
+	public Select<T> orderBy(OrderBy orderBy) {
 		return orderBy(orderBy.getOrder(alias));
 	}
 
 	@Override
-	public SelectBuilder orderBy(CharSequence orderBy) {
+	public Select<T> orderBy(CharSequence orderBy) {
 		this.orderBy = Optional.ofNullable(orderBy);
 		return this;
 	}
@@ -149,7 +150,7 @@ public class SelectBuilderImpl implements SelectBuilder {
 		where.ifPresent(w -> {
 			w.build((query, params) -> {
 				sql.append(" WHERE ").append(query);
-				SelectBuilderImpl.this.params = params;
+				SelectImpl.this.params = params;
 			});
 		});
 	}
@@ -179,7 +180,4 @@ public class SelectBuilderImpl implements SelectBuilder {
 		offset.ifPresent(offset -> sql.append(" OFFSET ").append(offset));
 	}
 	
-	
-	
-
 }
