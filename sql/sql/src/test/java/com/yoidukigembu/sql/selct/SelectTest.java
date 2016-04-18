@@ -1,5 +1,7 @@
 package com.yoidukigembu.sql.selct;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -30,5 +32,40 @@ public class SelectTest extends TestCase {
 			assertEquals("SELECT alias.* FROM dummy alias", sql);
 			assertEquals(0, params.size());
 		});
+	}
+
+	@Test
+	public void カラム指定テスト_単発() {
+		Select.from(DummyEntity.class)
+			.columns("id")
+			.generate((sql, params) -> {
+				assertEquals("SELECT T.id FROM dummy T", sql);
+				assertEquals(0, params.size());
+			});
+
+		Select.from(DummyEntity.class)
+			.columns(Arrays.asList("id"))
+			.generate((sql, params) -> {
+				assertEquals("SELECT T.id FROM dummy T", sql);
+				assertEquals(0, params.size());
+			});
+	}
+	
+	@Test
+	public void カラム指定テスト_複数() {
+		String[] columns = {"id", "name", "address", "mailAddress"};
+		Select.from(DummyEntity.class)
+			.columns(columns)
+			.generate((sql, params) -> {
+				assertEquals("SELECT T.id, T.name, T.address, T.mailAddress FROM dummy T", sql);
+				assertEquals(0, params.size());
+			});
+
+		Select.from(DummyEntity.class)
+			.columns(Arrays.asList(columns))
+			.generate((sql, params) -> {
+				assertEquals("SELECT T.id, T.name, T.address, T.mailAddress FROM dummy T", sql);
+				assertEquals(0, params.size());
+			});
 	}
 }
