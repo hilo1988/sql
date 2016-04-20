@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.yoidukigembu.sql.enums.OrderType;
+import com.yoidukigembu.sql.util.SqlUtil;
 
 /**
  * ORDER BY
@@ -14,34 +15,64 @@ import com.yoidukigembu.sql.enums.OrderType;
 public class OrderBy {
 
 	/** ORDER BY のリスト */
-	private List<OrderHolder> orderList;
+	private List<OrderHolder> orderList = new ArrayList<>();
 	
 	public OrderBy() {
-		this.orderList = new ArrayList<>();
+	}
+	
+	public OrderBy(String column) {
+		this(column, OrderType.ASC);
+	}
+	
+	public OrderBy(String column, OrderType orderType) {
+		add(column, orderType);
+	}
+	
+	public OrderBy(String alias, String column, OrderType orderType) {
 	}
 	
 	/**
 	 * ASC
 	 */
 	public OrderBy asc(String column) {
-		add(column, OrderType.ASC);
-		return this;
+		return asc(null, column);
 	}
 	
-
+	/**
+	 * ASC
+	 */
+	public OrderBy asc(String alias, String column) {
+		return add(alias, column, OrderType.ASC);
+	}
+	
 	/**
 	 * DESC
 	 */
 	public OrderBy desc(String column) {
-		add(column, OrderType.DESC);
-		return this;
+		return desc(null, column);
+	}
+
+	/**
+	 * DESC
+	 */
+	public OrderBy desc(String alias, String column) {
+		return add(alias, column, OrderType.DESC);
+	}
+	
+	
+	/**
+	 * ORDER BY を追加
+	 */
+	private OrderBy add(String column, OrderType type) {
+		return add(null, column, type);
 	}
 	
 	/**
 	 * ORDER BY を追加
 	 */
-	private void add(String column, OrderType type) {
-		orderList.add(new OrderHolder(column, type));
+	private OrderBy add(String alias, String column, OrderType type) {
+		orderList.add(new OrderHolder(alias, column, type));
+		return this;
 	}
 	
 	/**
@@ -56,14 +87,21 @@ public class OrderBy {
 		/** ORDER BY のタイプ */
 		private final OrderType type;
 		
+		private final Optional<String> alias;
+		
 		private OrderHolder(String column, OrderType type) {
+			this(null, column, type);
+		}
+		private OrderHolder(String alias, String column, OrderType type) {
 			this.column = column;
 			this.type = type;
+			this.alias = Optional.ofNullable(alias);
 		}
 		
 		@Override
 		public String toString() {
-			return String.format("%s %s", column, type.getValue());
+			return String.format("%s %s",
+					SqlUtil.alias(alias, column), type.getValue());
 		}
 		
 	}
@@ -71,15 +109,14 @@ public class OrderBy {
 	/**
 	 * ORDER BY の文字列を取得
 	 */
-	public CharSequence getOrder(Optional<String> alias) {
+	public CharSequence getOrder() {
 		StringBuilder sb = new StringBuilder();
-		final String prefix = alias.map(a -> a.concat(".")).orElse("");
 		int index = 0;
 		for (OrderHolder order : this.orderList) {
 			if (index++ > 0) {
 				sb.append(", ");
 			}
-			sb.append(prefix.concat(order.toString()));
+			sb.append(order.toString());
 		}
 		
 		return sb;

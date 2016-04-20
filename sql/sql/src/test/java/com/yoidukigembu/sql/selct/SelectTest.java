@@ -7,6 +7,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import com.yoidukigembu.sql.entity.DummyEntity;
+import com.yoidukigembu.sql.enums.OrderType;
+import com.yoidukigembu.sql.orderBy.OrderBy;
 import com.yoidukigembu.sql.select.Select;
 
 import junit.framework.TestCase;
@@ -65,5 +67,59 @@ public class SelectTest extends TestCase {
 				assertEquals("SELECT T.id, T.name, T.address, T.mailAddress FROM dummy T", sql);
 				assertEquals(0, params.size());
 			});
+	}
+	
+	@Test
+	public void limitテスト() {
+		Select.from(DummyEntity.class)
+			.limit(10)
+			.generate((sql, params) -> {
+				assertEquals("SELECT T.* FROM dummy T LIMIT 10", sql);
+				assertEquals(0, params.size());
+			});
+	}
+	
+	@Test
+	public void offsetテスト() {
+		Select.from(DummyEntity.class)
+		.offset(10)
+		.generate((sql, params) -> {
+			assertEquals("SELECT T.* FROM dummy T OFFSET 10", sql);
+			assertEquals(0, params.size());
+		});
+	}
+	
+	@Test
+	public void orderByテスト() {
+		Select.from(DummyEntity.class)
+			.orderBy("id")
+			.generate((sql, params) -> {
+				assertEquals("SELECT T.* FROM dummy T ORDER BY id", sql);
+				assertEquals(0, params.size());
+			});
+		
+		
+		Select.from(DummyEntity.class)
+			.orderBy(new OrderBy("id"))
+			.generate((sql, params) -> {
+				assertEquals("SELECT T.* FROM dummy T ORDER BY id ASC", sql);
+				assertEquals(0, params.size());
+			});
+		
+		Select.from(DummyEntity.class)
+			.orderBy(new OrderBy("id", OrderType.DESC))
+			.generate((sql, params) -> {
+				assertEquals("SELECT T.* FROM dummy T ORDER BY id DESC", sql);
+				assertEquals(0, params.size());
+			});
+		
+		Select.from(DummyEntity.class)
+		.orderBy(new OrderBy("id", OrderType.DESC)
+				.asc("name")
+				.desc("gender"))
+		.generate((sql, params) -> {
+			assertEquals("SELECT T.* FROM dummy T ORDER BY id DESC, name ASC, gender DESC", sql);
+			assertEquals(0, params.size());
+		});
 	}
 }

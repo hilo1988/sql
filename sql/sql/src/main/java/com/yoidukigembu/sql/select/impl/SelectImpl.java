@@ -100,7 +100,7 @@ public class SelectImpl<T> implements Select<T> {
 
 	@Override
 	public Select<T> orderBy(OrderBy orderBy) {
-		return orderBy(orderBy.getOrder(alias));
+		return orderBy(orderBy.getOrder());
 	}
 
 	@Override
@@ -178,7 +178,7 @@ public class SelectImpl<T> implements Select<T> {
 	}
 	
 	private void addOrderBy(StringBuilder sql) {
-		orderBy.ifPresent(order -> sql.append("ORDER BY ").append(order));
+		orderBy.ifPresent(order -> sql.append(" ORDER BY ").append(order));
 	}
 	
 	private void addLimit(StringBuilder sql) {
