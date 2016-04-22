@@ -1,4 +1,4 @@
-package com.yoidukigembu.sql.enums;
+package com.yoidukigembu.sql.where.enums;
 
 /**
  * WHEREのデリミタ

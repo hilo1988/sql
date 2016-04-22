@@ -1,11 +1,9 @@
-package com.yoidukigembu.sql.where.impl;
+package com.yoidukigembu.sql.where;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
-import com.yoidukigembu.sql.where.Where;
 
 /**
  * Whereの実装クラス

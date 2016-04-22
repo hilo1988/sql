@@ -6,8 +6,8 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import com.yoidukigembu.sql.enums.WhereDelimiter;
 import com.yoidukigembu.sql.util.SqlUtil;
+import com.yoidukigembu.sql.where.enums.WhereDelimiter;
 
 /**
  * WHEREオブジェクト
