@@ -1,6 +1,10 @@
 package com.yoidukigembu.sql.util;
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.IntStream;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class SqlUtil {
 
@@ -15,5 +19,13 @@ public class SqlUtil {
 	public static String alias(Optional<String> alias, String name) {
 		return alias.map(a -> String.format("%s.%s", a, name))
 					.orElse(name);
+	}
+	
+	public static String createQuestions(Collection<?> col) {
+		return StringUtils.join(
+				IntStream.rangeClosed(1, col.size())
+				.boxed()
+				.map(i -> "?"), 
+				",");
 	}
 }
