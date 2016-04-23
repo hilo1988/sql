@@ -611,4 +611,118 @@ public class WhereImplTest extends TestCase {
 		}
 	}
 
+	
+
+	@Test
+	public void andLt() {
+		Where where = new WhereImpl();
+		where.lt("id", 1);
+		where.build((query, params) -> {
+			assertEquals("id < ?", query.trim());
+			assertEquals(1, params.size());
+			assertEquals(1, params.get(0));
+		});
+		
+		
+		where.lt("age", 10);
+		where.build((query, params) -> {
+			assertEquals("id < ? AND age < ?", query.trim());
+			assertEquals(2, params.size());
+			assertEquals(1, params.get(0));
+			assertEquals(10, params.get(1));
+		});
+		
+		where.lt("ex", null);
+		try {
+			where.build((query, params) -> {});
+			fail("NullPointerException must be occured");
+		} catch (NullPointerException e) {
+			assertEquals(String.format(NULL_FORMAT, "ex < ?"), e.getMessage());
+		}
+	}
+	
+	@Test
+	public void andLtAlias() {
+		Where where = new WhereImpl();
+		where.lt("ALIAS", "id", 1);
+		where.build((query, params) -> {
+			assertEquals("ALIAS.id < ?", query.trim());
+			assertEquals(1, params.size());
+			assertEquals(1, params.get(0));
+		});
+		
+		
+		where.lt("ALIAS", "age", 10);
+		where.build((query, params) -> {
+			assertEquals("ALIAS.id < ? AND ALIAS.age < ?", query.trim());
+			assertEquals(2, params.size());
+			assertEquals(1, params.get(0));
+			assertEquals(10, params.get(1));
+		});
+		
+		where.lt("ALIAS", "ex", null);
+		try {
+			where.build((query, params) -> {});
+			fail("NullPointerException must be occured");
+		} catch (NullPointerException e) {
+			assertEquals(String.format(NULL_FORMAT, "ALIAS.ex < ?"), e.getMessage());
+		}
+	}
+	
+	
+	@Test
+	public void orLt() {
+		Where where = new WhereImpl();
+		where.orLt("id", 1);
+		where.build((query, params) -> {
+			assertEquals("id < ?", query.trim());
+			assertEquals(1, params.size());
+			assertEquals(1, params.get(0));
+		});
+		
+		
+		where.orLt("age", 10);
+		where.build((query, params) -> {
+			assertEquals("id < ? OR age < ?", query.trim());
+			assertEquals(2, params.size());
+			assertEquals(1, params.get(0));
+			assertEquals(10, params.get(1));
+		});
+		
+		where.orLt("ex", null);
+		try {
+			where.build((query, params) -> {});
+			fail("NullPointerException must be occured");
+		} catch (NullPointerException e) {
+			assertEquals(String.format(NULL_FORMAT, "ex < ?"), e.getMessage());
+		}
+	}
+	
+	@Test
+	public void orLtAlias() {
+		Where where = new WhereImpl();
+		where.orLt("ALIAS", "id", 1);
+		where.build((query, params) -> {
+			assertEquals("ALIAS.id < ?", query.trim());
+			assertEquals(1, params.size());
+			assertEquals(1, params.get(0));
+		});
+		
+		
+		where.orLt("ALIAS", "age", 10);
+		where.build((query, params) -> {
+			assertEquals("ALIAS.id < ? OR ALIAS.age < ?", query.trim());
+			assertEquals(2, params.size());
+			assertEquals(1, params.get(0));
+			assertEquals(10, params.get(1));
+		});
+		
+		where.orLt("ALIAS", "ex", null);
+		try {
+			where.build((query, params) -> {});
+			fail("NullPointerException must be occured");
+		} catch (NullPointerException e) {
+			assertEquals(String.format(NULL_FORMAT, "ALIAS.ex < ?"), e.getMessage());
+		}
+	}
 }
