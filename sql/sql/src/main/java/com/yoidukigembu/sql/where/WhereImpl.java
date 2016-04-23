@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.yoidukigembu.sql.exception.WhereException;
 import com.yoidukigembu.sql.util.SqlUtil;
 
 /**
@@ -83,7 +84,9 @@ public class WhereImpl extends AbstractWhere implements Where {
 	 */
 	private void addMultiValueQuery(WhereHolder holder, StringBuilder where, List<Object> params) {
 		Collection<?> values = (Collection<?>) holder.getParam()
-							.orElseThrow(() -> new NullPointerException());
+								.orElseThrow(() -> 
+								new WhereException(String.format("value must not be EMPTY. query:[%s]", String.format(holder.getType().getQueryFormat(), holder.getAliasColumn(), ""))));
+		
 		
 		String questions = SqlUtil.createQuestions(values);
 		where.append(String.format(holder.getType().getQueryFormat(), holder.getAliasColumn(), questions));
@@ -93,7 +96,7 @@ public class WhereImpl extends AbstractWhere implements Where {
 	private void addSingleValueQuery(WhereHolder holder, StringBuilder where, List<Object> params) {
 		String query = String.format(holder.getType().getQueryFormat(), holder.getAliasColumn());
 		Object value = holder.getParam()
-						.orElseThrow(() -> new NullPointerException(String.format("value must not be NULL. query:[%s]", query)));
+						.orElseThrow(() -> new WhereException(String.format("value must not be NULL. query:[%s]", query)));
 		
 		where.append(query);
 		params.add(convertParam(holder.getType(), value));

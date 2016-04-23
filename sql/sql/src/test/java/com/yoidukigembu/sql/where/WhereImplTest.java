@@ -1,8 +1,13 @@
 package com.yoidukigembu.sql.where;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import com.yoidukigembu.sql.exception.WhereException;
 
 import junit.framework.TestCase;
 
@@ -10,6 +15,8 @@ import junit.framework.TestCase;
 public class WhereImplTest extends TestCase {
 	
 	private static final String NULL_FORMAT = "value must not be NULL. query:[%s]";
+	
+	private static final String EMPTY_FORMAT = "value must not be EMPTY. query:[%s]";
 
 	@Test
 	public void andIsNotNull() {
@@ -176,8 +183,8 @@ public class WhereImplTest extends TestCase {
 		where.eq("ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ex = ?"), e.getMessage());
 		}
 	}
@@ -204,8 +211,8 @@ public class WhereImplTest extends TestCase {
 		where.eq("ALIAS", "ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ALIAS.ex = ?"), e.getMessage());
 		}
 	}
@@ -233,8 +240,8 @@ public class WhereImplTest extends TestCase {
 		where.orEq("ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ex = ?"), e.getMessage());
 		}
 	}
@@ -261,8 +268,8 @@ public class WhereImplTest extends TestCase {
 		where.orEq("ALIAS", "ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ALIAS.ex = ?"), e.getMessage());
 		}
 	}
@@ -290,8 +297,8 @@ public class WhereImplTest extends TestCase {
 		where.ne("ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ex != ?"), e.getMessage());
 		}
 	}
@@ -319,8 +326,8 @@ public class WhereImplTest extends TestCase {
 		where.ne("ALIAS", "ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ALIAS.ex != ?"), e.getMessage());
 		}
 	}
@@ -348,8 +355,8 @@ public class WhereImplTest extends TestCase {
 		where.orNe("ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ex != ?"), e.getMessage());
 		}
 	}
@@ -377,8 +384,8 @@ public class WhereImplTest extends TestCase {
 		where.orNe("ALIAS", "ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ALIAS.ex != ?"), e.getMessage());
 		}
 	}
@@ -406,8 +413,8 @@ public class WhereImplTest extends TestCase {
 		where.gt("ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ex > ?"), e.getMessage());
 		}
 	}
@@ -434,8 +441,8 @@ public class WhereImplTest extends TestCase {
 		where.gt("ALIAS", "ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ALIAS.ex > ?"), e.getMessage());
 		}
 	}
@@ -463,8 +470,8 @@ public class WhereImplTest extends TestCase {
 		where.orGt("ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ex > ?"), e.getMessage());
 		}
 	}
@@ -491,8 +498,8 @@ public class WhereImplTest extends TestCase {
 		where.orGt("ALIAS", "ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ALIAS.ex > ?"), e.getMessage());
 		}
 	}
@@ -520,8 +527,8 @@ public class WhereImplTest extends TestCase {
 		where.ge("ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ex >= ?"), e.getMessage());
 		}
 	}
@@ -548,8 +555,8 @@ public class WhereImplTest extends TestCase {
 		where.ge("ALIAS", "ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ALIAS.ex >= ?"), e.getMessage());
 		}
 	}
@@ -577,8 +584,8 @@ public class WhereImplTest extends TestCase {
 		where.orGe("ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ex >= ?"), e.getMessage());
 		}
 	}
@@ -605,8 +612,8 @@ public class WhereImplTest extends TestCase {
 		where.orGe("ALIAS", "ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ALIAS.ex >= ?"), e.getMessage());
 		}
 	}
@@ -635,8 +642,8 @@ public class WhereImplTest extends TestCase {
 		where.lt("ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ex < ?"), e.getMessage());
 		}
 	}
@@ -663,8 +670,8 @@ public class WhereImplTest extends TestCase {
 		where.lt("ALIAS", "ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ALIAS.ex < ?"), e.getMessage());
 		}
 	}
@@ -692,8 +699,8 @@ public class WhereImplTest extends TestCase {
 		where.orLt("ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ex < ?"), e.getMessage());
 		}
 	}
@@ -720,8 +727,8 @@ public class WhereImplTest extends TestCase {
 		where.orLt("ALIAS", "ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ALIAS.ex < ?"), e.getMessage());
 		}
 	}
@@ -749,8 +756,8 @@ public class WhereImplTest extends TestCase {
 		where.le("ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ex <= ?"), e.getMessage());
 		}
 	}
@@ -777,8 +784,8 @@ public class WhereImplTest extends TestCase {
 		where.le("ALIAS", "ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ALIAS.ex <= ?"), e.getMessage());
 		}
 	}
@@ -806,8 +813,8 @@ public class WhereImplTest extends TestCase {
 		where.orLe("ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ex <= ?"), e.getMessage());
 		}
 	}
@@ -834,8 +841,8 @@ public class WhereImplTest extends TestCase {
 		where.orLe("ALIAS", "ex", null);
 		try {
 			where.build((query, params) -> {});
-			fail("NullPointerException must be occured");
-		} catch (NullPointerException e) {
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
 			assertEquals(String.format(NULL_FORMAT, "ALIAS.ex <= ?"), e.getMessage());
 		}
 	}
