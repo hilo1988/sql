@@ -22,11 +22,19 @@ public class BaseWhere extends AbstractWhere implements Where {
 		this.holderList = new ArrayList<>();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.yoidukigembu.sql.where.Where#getHolderList()
+	 */
 	@Override
 	public List<Where.WhereHolder> getHolderList() {
 		return holderList;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.yoidukigembu.sql.where.Where#build(com.yoidukigembu.sql.where.Where.Consumer)
+	 */
 	@Override
 	public void build(Consumer consumer) {
 		
@@ -48,6 +56,13 @@ public class BaseWhere extends AbstractWhere implements Where {
 		consumer.consume(where.toString(), params);
 	}
 	
+	
+	/**
+	 * クエリの追加
+	 * @param holder WHERE条件ホルダ
+	 * @param where WHERE文
+	 * @param params 値リスト
+	 */
 	private void addQuery(WhereHolder holder, StringBuilder where, List<Object> params) {
 		switch (holder.getType()) {
 		case IS_NOT_NULL:
@@ -95,6 +110,13 @@ public class BaseWhere extends AbstractWhere implements Where {
 		params.addAll(values);
 	}
 	
+	
+	/**
+	 * 単体の検索条件を追加 (=, != など)
+	 * @param holder WHERE条件ホルダ
+	 * @param where WHERE文
+	 * @param params 値リスト
+	 */
 	private void addSingleValueQuery(WhereHolder holder, StringBuilder where, List<Object> params) {
 		String query = String.format(holder.getType().getQueryFormat(), holder.getAliasColumn());
 		Object value = holder.getParam()
