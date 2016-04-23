@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.yoidukigembu.sql.util.SqlUtil;
 import com.yoidukigembu.sql.where.enums.WhereDelimiter;
+import com.yoidukigembu.sql.where.enums.WhereType;
 
 /**
  * WHEREオブジェクト
@@ -72,9 +73,9 @@ public interface Where {
 		getHolderList().add(
 				new WhereHolder(delimiter, 
 						alias,
-						String.format("%s IS NOT NULL", column),
-						Optional.empty(),
-						true));
+						column,
+						WhereType.IS_NOT_NULL,
+						null));
 		return this;
 	}
 	
@@ -129,9 +130,9 @@ public interface Where {
 	public default Where isNull(WhereDelimiter delimiter, String alias, String column) {
 		getHolderList().add(new WhereHolder(delimiter, 
 				alias,
-				String.format("%s IS NULL", column),
-				Optional.empty(),
-				true));
+				column,
+				WhereType.IS_NULL,
+				null));
 		return this;
 	}
 	
@@ -185,8 +186,9 @@ public interface Where {
 		getHolderList()
 			.add(new WhereHolder(delimiter,
 					alias,
-					String.format("%s = ?", column),
-					Optional.ofNullable(param)));
+					column,
+					WhereType.EQUALS,
+					param));
 		return this;
 	}
 	
@@ -240,8 +242,9 @@ public interface Where {
 		getHolderList()
 			.add(new WhereHolder(delimiter,
 					alias,
-					String.format("%s != ?", column),
-					Optional.ofNullable(param)));
+					column,
+					WhereType.NOT_EQUALS,
+					param));
 		return this;
 	}
 	
@@ -294,8 +297,9 @@ public interface Where {
 		getHolderList()
 			.add(new WhereHolder(delimiter,
 					alias,
-					String.format("%s > ?", column),
-					Optional.ofNullable(param)));
+					column,
+					WhereType.GREATER_THAN,
+					param));
 		return this;
 	}
 	
@@ -350,8 +354,9 @@ public interface Where {
 		getHolderList()
 			.add(new WhereHolder(delimiter,
 					alias,
-					String.format("%s >= ?", column),
-					Optional.ofNullable(param)));
+					column,
+					WhereType.GREATER_EQUALS,
+					param));
 		return this;
 	}
 	
@@ -406,8 +411,9 @@ public interface Where {
 		getHolderList()
 			.add(new WhereHolder(delimiter,
 					alias,
-					String.format("%s < ?", column),
-					Optional.of(param)));
+					column,
+					WhereType.LESS_THAN,
+					param));
 		return this;
 	}
 	
@@ -462,8 +468,9 @@ public interface Where {
 		getHolderList()
 			.add(new WhereHolder(delimiter,
 					alias,
-					String.format("%s <= ?", column),
-					Optional.of(param)));
+					column,
+					WhereType.LESS_EQUALS,
+					param));
 		return this;
 	}
 	
@@ -515,8 +522,9 @@ public interface Where {
 		getHolderList()
 			.add(new WhereHolder(delimiter,
 					alias,
-					String.format("%s IN (%s)", column, SqlUtil.createQuestions(params)),
-					Optional.ofNullable(params)));
+					column,
+					WhereType.IN,
+					params));
 		return this;
 	}
 	
@@ -570,8 +578,9 @@ public interface Where {
 		getHolderList()
 			.add(new WhereHolder(delimiter,
 					alias,
-					String.format("%s NOT IN (%s)", column, SqlUtil.createQuestions(params)), 
-					Optional.ofNullable(params)));
+					column,
+					WhereType.NOT_IN,
+					params));
 		return this;
 	}
 	
@@ -628,9 +637,9 @@ public interface Where {
 		getHolderList()
 			.add(new WhereHolder(delimiter, 
 					alias,
-					String.format("%s LIKE ?", column),
-					Optional.ofNullable(param)
-								.map(s -> s.concat("%"))));
+					column,
+					WhereType.BEGIN_WITH,
+					param));
 		
 		return this;
 	}
@@ -684,9 +693,9 @@ public interface Where {
 		getHolderList()
 			.add(new WhereHolder(delimiter, 
 					alias,
-					String.format("%s LIKE ?", column),
-					Optional.ofNullable(param)
-								.map(s -> "%".concat(s))));
+					column,
+					WhereType.ENDS_WITH,
+					param));
 		
 		return this;
 	}
@@ -740,9 +749,9 @@ public interface Where {
 		getHolderList()
 			.add(new WhereHolder(delimiter, 
 					alias,
-					String.format("%s LIKE ?", column),
-					Optional.ofNullable(param)
-								.map(s -> String.format("%%%s%%", s))));
+					column,
+					WhereType.CONTAINS,
+					param));
 		
 		return this;
 	}
@@ -760,28 +769,27 @@ public interface Where {
 		/** エイリアス */
 		private final Optional<String> alias;
 		
+		/** カラム */
+		private String column;
+		
 		/** クエリ */
-		private final String query;
+		private final WhereType type;
 		
 		/** パラメータ */
 		private final Optional<?> param;
 		
-		/**
-		 * 空フラグ
-		 * IS NULL など値を指定しない時にtrue
-		 */
-		private final boolean blankFlg;
 		
-		public WhereHolder(WhereDelimiter delimiter, String alias, String query, Optional<?> param) {
-			this(delimiter, alias, query, param, false);
+		public WhereHolder(WhereDelimiter delimiter, 
+							String alias, 
+							String column, 
+							WhereType type,
+							Object param) {
 			
-		}
-		public WhereHolder(WhereDelimiter delimiter, String alias, String query, Optional<?> param, boolean blankFlg) {
 			this.delimiter = delimiter;
 			this.alias = Optional.ofNullable(alias);
-			this.query = query;
-			this.param = param;
-			this.blankFlg = blankFlg;
+			this.column = column;
+			this.type = type;
+			this.param = Optional.ofNullable(param);
 		}
 		
 		
@@ -790,18 +798,25 @@ public interface Where {
 		public WhereDelimiter getDelimiter() {
 			return delimiter;
 		}
-		public String getQuery() {
-			return query;
+		
+		public WhereType getType() {
+			return type;
 		}
+		
 		public Optional<?> getParam() {
 			return param;
-		}
-		public boolean isBlankFlg() {
-			return blankFlg;
 		}
 		
 		public Optional<String> getAlias() {
 			return alias;
+		}
+		
+		public String getColumn() {
+			return column;
+		}
+		
+		public String getAliasColumn() {
+			return SqlUtil.alias(alias, column);
 		}
 		
 		@Override
