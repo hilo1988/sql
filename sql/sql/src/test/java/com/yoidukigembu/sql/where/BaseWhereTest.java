@@ -1248,4 +1248,118 @@ public class BaseWhereTest extends TestCase {
 	}
 	
 	
+	@Test
+	public void andBeginWith() {
+		Where where = new BaseWhere();
+		where.beginWith("name", "h");
+		where.build((query, params) -> {
+			assertEquals("name LIKE ?", query.trim());
+			assertEquals(1, params.size());
+			assertEquals("h%", params.get(0));
+		});
+		
+		
+		where.beginWith("name", "i");
+		where.build((query, params) -> {
+			assertEquals("name LIKE ? AND name LIKE ?", query.trim());
+			assertEquals(2, params.size());
+			assertEquals("h%", params.get(0));
+			assertEquals("i%", params.get(1));
+		});
+		
+		where.beginWith("ex", null);
+		try {
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(NULL_FORMAT, "ex LIKE ?"), e.getMessage());
+		}
+	}
+	
+	@Test
+	public void andBeginWithAlias() {
+		Where where = new BaseWhere();
+		where.beginWith("ALIAS", "name", "h");
+		where.build((query, params) -> {
+			assertEquals("ALIAS.name LIKE ?", query.trim());
+			assertEquals(1, params.size());
+			assertEquals("h%", params.get(0));
+		});
+		
+		
+		where.beginWith("ALIAS", "name", "i");
+		where.build((query, params) -> {
+			assertEquals("ALIAS.name LIKE ? AND ALIAS.name LIKE ?", query.trim());
+			assertEquals(2, params.size());
+			assertEquals("h%", params.get(0));
+			assertEquals("i%", params.get(1));
+		});
+		
+		where.beginWith("ALIAS", "ex", null);
+		try {
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(NULL_FORMAT, "ALIAS.ex LIKE ?"), e.getMessage());
+		}
+	}
+	
+	
+	@Test
+	public void orBeginWith() {
+		Where where = new BaseWhere();
+		where.orBeginWith("name", "h");
+		where.build((query, params) -> {
+			assertEquals("name LIKE ?", query.trim());
+			assertEquals(1, params.size());
+			assertEquals("h%", params.get(0));
+		});
+		
+		
+		where.orBeginWith("name", "i");
+		where.build((query, params) -> {
+			assertEquals("name LIKE ? OR name LIKE ?", query.trim());
+			assertEquals(2, params.size());
+			assertEquals("h%", params.get(0));
+			assertEquals("i%", params.get(1));
+		});
+		
+		where.orBeginWith("ex", null);
+		try {
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(NULL_FORMAT, "ex LIKE ?"), e.getMessage());
+		}
+	}
+	
+	@Test
+	public void orBeginWithAlias() {
+		Where where = new BaseWhere();
+		where.orBeginWith("ALIAS", "name", "h");
+		where.build((query, params) -> {
+			assertEquals("ALIAS.name LIKE ?", query.trim());
+			assertEquals(1, params.size());
+			assertEquals("h%", params.get(0));
+		});
+		
+		
+		where.orBeginWith("ALIAS", "name", "i");
+		where.build((query, params) -> {
+			assertEquals("ALIAS.name LIKE ? OR ALIAS.name LIKE ?", query.trim());
+			assertEquals(2, params.size());
+			assertEquals("h%", params.get(0));
+			assertEquals("i%", params.get(1));
+		});
+		
+		where.orBeginWith("ALIAS", "ex", null);
+		try {
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(NULL_FORMAT, "ALIAS.ex LIKE ?"), e.getMessage());
+		}
+	}
+	
+	
 }
