@@ -1,5 +1,6 @@
 package com.yoidukigembu.sql.where;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -846,4 +847,206 @@ public class WhereImplTest extends TestCase {
 			assertEquals(String.format(NULL_FORMAT, "ALIAS.ex <= ?"), e.getMessage());
 		}
 	}
+	
+	
+	@Test
+	public void andIn() {
+		List<Integer> idList = Arrays.asList(5, 10, 2);
+		Where where = new WhereImpl();
+		where.in("id", idList);
+		where.build((query, params) -> {
+			assertEquals("id IN (?, ?, ?)", query.trim());
+			assertEquals(3, params.size());
+			assertEquals(5, params.get(0));
+			assertEquals(10, params.get(1));
+			assertEquals(2, params.get(2));
+		});
+		
+		
+		List<Long> ageList = Arrays.asList(30l, 40l, 20l, 50l);
+		where.in("age", ageList);
+		where.build((query, params) -> {
+			assertEquals("id IN (?, ?, ?) AND age IN (?, ?, ?, ?)", query.trim());
+			assertEquals(7, params.size());
+			assertEquals(5, params.get(0));
+			assertEquals(10, params.get(1));
+			assertEquals(2, params.get(2));
+			assertEquals(30l, params.get(3));
+			assertEquals(40l, params.get(4));
+			assertEquals(20l, params.get(5));
+			assertEquals(50l, params.get(6));
+		});
+		
+		where.in("ex", null);
+		try {
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(EMPTY_FORMAT, "ex IN ()"), e.getMessage());
+		}
+	}
+	
+	@Test
+	public void andInEmpty() {
+		try {
+			Where where = new WhereImpl();
+			where.in("ex", new ArrayList<>());
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(EMPTY_FORMAT, "ex IN ()"), e.getMessage());
+		}
+	}
+	
+	
+	@Test
+	public void andInAlias() {
+		List<Integer> idList = Arrays.asList(5, 10, 2);
+		Where where = new WhereImpl();
+		where.in("ALIAS", "id", idList);
+		where.build((query, params) -> {
+			assertEquals("ALIAS.id IN (?, ?, ?)", query.trim());
+			assertEquals(3, params.size());
+			assertEquals(5, params.get(0));
+			assertEquals(10, params.get(1));
+			assertEquals(2, params.get(2));
+		});
+		
+		
+		List<Long> ageList = Arrays.asList(30l, 40l, 20l, 50l);
+		where.in("ALIAS", "age", ageList);
+		where.build((query, params) -> {
+			assertEquals("ALIAS.id IN (?, ?, ?) AND ALIAS.age IN (?, ?, ?, ?)", query.trim());
+			assertEquals(7, params.size());
+			assertEquals(5, params.get(0));
+			assertEquals(10, params.get(1));
+			assertEquals(2, params.get(2));
+			assertEquals(30l, params.get(3));
+			assertEquals(40l, params.get(4));
+			assertEquals(20l, params.get(5));
+			assertEquals(50l, params.get(6));
+		});
+		
+		where.in("ALIAS", "ex", null);
+		try {
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(EMPTY_FORMAT, "ALIAS.ex IN ()"), e.getMessage());
+		}
+	}
+	
+	@Test
+	public void andInAliasEmpty() {
+		try {
+			Where where = new WhereImpl();
+			where.in("ALIAS", "ex", new ArrayList<>());
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(EMPTY_FORMAT, "ALIAS.ex IN ()"), e.getMessage());
+		}
+	}
+	
+	@Test
+	public void orIn() {
+		List<Integer> idList = Arrays.asList(5, 10, 2);
+		Where where = new WhereImpl();
+		where.orIn("id", idList);
+		where.build((query, params) -> {
+			assertEquals("id IN (?, ?, ?)", query.trim());
+			assertEquals(3, params.size());
+			assertEquals(5, params.get(0));
+			assertEquals(10, params.get(1));
+			assertEquals(2, params.get(2));
+		});
+		
+		
+		List<Long> ageList = Arrays.asList(30l, 40l, 20l, 50l);
+		where.orIn("age", ageList);
+		where.build((query, params) -> {
+			assertEquals("id IN (?, ?, ?) OR age IN (?, ?, ?, ?)", query.trim());
+			assertEquals(7, params.size());
+			assertEquals(5, params.get(0));
+			assertEquals(10, params.get(1));
+			assertEquals(2, params.get(2));
+			assertEquals(30l, params.get(3));
+			assertEquals(40l, params.get(4));
+			assertEquals(20l, params.get(5));
+			assertEquals(50l, params.get(6));
+		});
+		
+		where.orIn("ex", null);
+		try {
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(EMPTY_FORMAT, "ex IN ()"), e.getMessage());
+		}
+	}
+	
+	@Test
+	public void orInEmpty() {
+		try {
+			Where where = new WhereImpl();
+			where.orIn("ex", new ArrayList<>());
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(EMPTY_FORMAT, "ex IN ()"), e.getMessage());
+		}
+	}
+	
+	
+	@Test
+	public void orInAlias() {
+		List<Integer> idList = Arrays.asList(5, 10, 2);
+		Where where = new WhereImpl();
+		where.orIn("ALIAS", "id", idList);
+		where.build((query, params) -> {
+			assertEquals("ALIAS.id IN (?, ?, ?)", query.trim());
+			assertEquals(3, params.size());
+			assertEquals(5, params.get(0));
+			assertEquals(10, params.get(1));
+			assertEquals(2, params.get(2));
+		});
+		
+		
+		List<Long> ageList = Arrays.asList(30l, 40l, 20l, 50l);
+		where.orIn("ALIAS", "age", ageList);
+		where.build((query, params) -> {
+			assertEquals("ALIAS.id IN (?, ?, ?) OR ALIAS.age IN (?, ?, ?, ?)", query.trim());
+			assertEquals(7, params.size());
+			assertEquals(5, params.get(0));
+			assertEquals(10, params.get(1));
+			assertEquals(2, params.get(2));
+			assertEquals(30l, params.get(3));
+			assertEquals(40l, params.get(4));
+			assertEquals(20l, params.get(5));
+			assertEquals(50l, params.get(6));
+		});
+		
+		where.orIn("ALIAS", "ex", null);
+		try {
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(EMPTY_FORMAT, "ALIAS.ex IN ()"), e.getMessage());
+		}
+	}
+	
+	@Test
+	public void orInAliasEmpty() {
+		try {
+			Where where = new WhereImpl();
+			where.orIn("ALIAS", "ex", new ArrayList<>());
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(EMPTY_FORMAT, "ALIAS.ex IN ()"), e.getMessage());
+		}
+	}
+	
+	
+	
 }

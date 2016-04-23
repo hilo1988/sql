@@ -83,7 +83,9 @@ public class WhereImpl extends AbstractWhere implements Where {
 	 * @param params 値リスト
 	 */
 	private void addMultiValueQuery(WhereHolder holder, StringBuilder where, List<Object> params) {
-		Collection<?> values = (Collection<?>) holder.getParam()
+		Collection<?> values =  holder.getParam()
+								.map(p -> (Collection<?>) p)
+								.filter(p -> !p.isEmpty())
 								.orElseThrow(() -> 
 								new WhereException(String.format("value must not be EMPTY. query:[%s]", String.format(holder.getType().getQueryFormat(), holder.getAliasColumn(), ""))));
 		
