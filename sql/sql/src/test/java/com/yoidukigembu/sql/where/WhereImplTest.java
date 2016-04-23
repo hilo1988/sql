@@ -1049,4 +1049,203 @@ public class WhereImplTest extends TestCase {
 	
 	
 	
+	@Test
+	public void andNotIn() {
+		List<Integer> idList = Arrays.asList(5, 10, 2);
+		Where where = new WhereImpl();
+		where.notIn("id", idList);
+		where.build((query, params) -> {
+			assertEquals("id NOT IN (?, ?, ?)", query.trim());
+			assertEquals(3, params.size());
+			assertEquals(5, params.get(0));
+			assertEquals(10, params.get(1));
+			assertEquals(2, params.get(2));
+		});
+		
+		
+		List<Long> ageList = Arrays.asList(30l, 40l, 20l, 50l);
+		where.notIn("age", ageList);
+		where.build((query, params) -> {
+			assertEquals("id NOT IN (?, ?, ?) AND age NOT IN (?, ?, ?, ?)", query.trim());
+			assertEquals(7, params.size());
+			assertEquals(5, params.get(0));
+			assertEquals(10, params.get(1));
+			assertEquals(2, params.get(2));
+			assertEquals(30l, params.get(3));
+			assertEquals(40l, params.get(4));
+			assertEquals(20l, params.get(5));
+			assertEquals(50l, params.get(6));
+		});
+		
+		where.notIn("ex", null);
+		try {
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(EMPTY_FORMAT, "ex NOT IN ()"), e.getMessage());
+		}
+	}
+	
+	@Test
+	public void andNotInEmpty() {
+		try {
+			Where where = new WhereImpl();
+			where.notIn("ex", new ArrayList<>());
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(EMPTY_FORMAT, "ex NOT IN ()"), e.getMessage());
+		}
+	}
+	
+	
+	@Test
+	public void andNotInAlias() {
+		List<Integer> idList = Arrays.asList(5, 10, 2);
+		Where where = new WhereImpl();
+		where.notIn("ALIAS", "id", idList);
+		where.build((query, params) -> {
+			assertEquals("ALIAS.id NOT IN (?, ?, ?)", query.trim());
+			assertEquals(3, params.size());
+			assertEquals(5, params.get(0));
+			assertEquals(10, params.get(1));
+			assertEquals(2, params.get(2));
+		});
+		
+		
+		List<Long> ageList = Arrays.asList(30l, 40l, 20l, 50l);
+		where.notIn("ALIAS", "age", ageList);
+		where.build((query, params) -> {
+			assertEquals("ALIAS.id NOT IN (?, ?, ?) AND ALIAS.age NOT IN (?, ?, ?, ?)", query.trim());
+			assertEquals(7, params.size());
+			assertEquals(5, params.get(0));
+			assertEquals(10, params.get(1));
+			assertEquals(2, params.get(2));
+			assertEquals(30l, params.get(3));
+			assertEquals(40l, params.get(4));
+			assertEquals(20l, params.get(5));
+			assertEquals(50l, params.get(6));
+		});
+		
+		where.notIn("ALIAS", "ex", null);
+		try {
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(EMPTY_FORMAT, "ALIAS.ex NOT IN ()"), e.getMessage());
+		}
+	}
+	
+	@Test
+	public void andNotInAliasEmpty() {
+		try {
+			Where where = new WhereImpl();
+			where.notIn("ALIAS", "ex", new ArrayList<>());
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(EMPTY_FORMAT, "ALIAS.ex NOT IN ()"), e.getMessage());
+		}
+	}
+	
+	@Test
+	public void orNotIn() {
+		List<Integer> idList = Arrays.asList(5, 10, 2);
+		Where where = new WhereImpl();
+		where.orNotIn("id", idList);
+		where.build((query, params) -> {
+			assertEquals("id NOT IN (?, ?, ?)", query.trim());
+			assertEquals(3, params.size());
+			assertEquals(5, params.get(0));
+			assertEquals(10, params.get(1));
+			assertEquals(2, params.get(2));
+		});
+		
+		
+		List<Long> ageList = Arrays.asList(30l, 40l, 20l, 50l);
+		where.orNotIn("age", ageList);
+		where.build((query, params) -> {
+			assertEquals("id NOT IN (?, ?, ?) OR age NOT IN (?, ?, ?, ?)", query.trim());
+			assertEquals(7, params.size());
+			assertEquals(5, params.get(0));
+			assertEquals(10, params.get(1));
+			assertEquals(2, params.get(2));
+			assertEquals(30l, params.get(3));
+			assertEquals(40l, params.get(4));
+			assertEquals(20l, params.get(5));
+			assertEquals(50l, params.get(6));
+		});
+		
+		where.orNotIn("ex", null);
+		try {
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(EMPTY_FORMAT, "ex NOT IN ()"), e.getMessage());
+		}
+	}
+	
+	@Test
+	public void orNotInEmpty() {
+		try {
+			Where where = new WhereImpl();
+			where.orNotIn("ex", new ArrayList<>());
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(EMPTY_FORMAT, "ex NOT IN ()"), e.getMessage());
+		}
+	}
+	
+	
+	@Test
+	public void orNotInAlias() {
+		List<Integer> idList = Arrays.asList(5, 10, 2);
+		Where where = new WhereImpl();
+		where.orNotIn("ALIAS", "id", idList);
+		where.build((query, params) -> {
+			assertEquals("ALIAS.id NOT IN (?, ?, ?)", query.trim());
+			assertEquals(3, params.size());
+			assertEquals(5, params.get(0));
+			assertEquals(10, params.get(1));
+			assertEquals(2, params.get(2));
+		});
+		
+		
+		List<Long> ageList = Arrays.asList(30l, 40l, 20l, 50l);
+		where.orNotIn("ALIAS", "age", ageList);
+		where.build((query, params) -> {
+			assertEquals("ALIAS.id NOT IN (?, ?, ?) OR ALIAS.age NOT IN (?, ?, ?, ?)", query.trim());
+			assertEquals(7, params.size());
+			assertEquals(5, params.get(0));
+			assertEquals(10, params.get(1));
+			assertEquals(2, params.get(2));
+			assertEquals(30l, params.get(3));
+			assertEquals(40l, params.get(4));
+			assertEquals(20l, params.get(5));
+			assertEquals(50l, params.get(6));
+		});
+		
+		where.orNotIn("ALIAS", "ex", null);
+		try {
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(EMPTY_FORMAT, "ALIAS.ex NOT IN ()"), e.getMessage());
+		}
+	}
+	
+	@Test
+	public void orNotInAliasEmpty() {
+		try {
+			Where where = new WhereImpl();
+			where.orNotIn("ALIAS", "ex", new ArrayList<>());
+			where.build((query, params) -> {});
+			fail("WhereException must be occured");
+		} catch (WhereException e) {
+			assertEquals(String.format(EMPTY_FORMAT, "ALIAS.ex NOT IN ()"), e.getMessage());
+		}
+	}
+	
+	
 }
