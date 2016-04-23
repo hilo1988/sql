@@ -25,7 +25,7 @@ public class SqlUtil {
 		return StringUtils.join(
 				IntStream.rangeClosed(1, col.size())
 				.boxed()
-				.map(i -> "?"), 
-				",");
+				.map(i -> "?").iterator(), 
+				", ");
 	}
 }
