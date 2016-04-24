@@ -13,12 +13,12 @@ import com.yoidukigembu.sql.util.SqlUtil;
  * @author hilo
  *
  */
-public class BaseWhere extends AbstractWhere implements Where {
+public class BasicWhere extends AbstractWhere implements Where {
 
 	/** 条件ホルダリスト */
 	private final List<Where.WhereHolder> holderList;
 
-	public BaseWhere() {
+	public BasicWhere() {
 		this.holderList = new ArrayList<>();
 	}
 

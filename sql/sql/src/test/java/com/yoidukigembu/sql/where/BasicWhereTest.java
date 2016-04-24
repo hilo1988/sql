@@ -13,7 +13,7 @@ import com.yoidukigembu.sql.exception.WhereException;
 import junit.framework.TestCase;
 
 @RunWith(JUnit4.class)
-public class BaseWhereTest extends TestCase {
+public class BasicWhereTest extends TestCase {
 	
 	private static final String NULL_FORMAT = "value must not be NULL. query:[%s]";
 	
@@ -21,7 +21,7 @@ public class BaseWhereTest extends TestCase {
 
 	@Test
 	public void andIsNotNull() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.isNotNull("id");
 		where.build((query, params) -> {
 			assertEquals("id IS NOT NULL", query.trim());
@@ -39,7 +39,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andIsNotNullAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.isNotNull("ALIAS", "id");
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id IS NOT NULL", query.trim());
@@ -57,7 +57,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orIsNotNull() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orIsNotNull("id");
 		where.build((query, params) -> {
 			assertEquals("id IS NOT NULL", query.trim());
@@ -75,7 +75,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orIsNotNullAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orIsNotNull("ALIAS", "id");
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id IS NOT NULL", query.trim());
@@ -94,7 +94,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andIsNull() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.isNull("id");
 		where.build((query, params) -> {
 			assertEquals("id IS NULL", query.trim());
@@ -112,7 +112,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andIsNullAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.isNull("ALIAS", "id");
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id IS NULL", query.trim());
@@ -129,7 +129,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orIsNull() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orIsNull("id");
 		where.build((query, params) -> {
 			assertEquals("id IS NULL", query.trim());
@@ -147,7 +147,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orIsNullAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orIsNull("ALIAS", "id");
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id IS NULL", query.trim());
@@ -164,7 +164,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andEq() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.eq("id", 1);
 		where.build((query, params) -> {
 			assertEquals("id = ?", query.trim());
@@ -192,7 +192,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andEqAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.eq("ALIAS", "id", 1);
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id = ?", query.trim());
@@ -221,7 +221,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orEq() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orEq("id", 1);
 		where.build((query, params) -> {
 			assertEquals("id = ?", query.trim());
@@ -249,7 +249,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orEqAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orEq("ALIAS", "id", 1);
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id = ?", query.trim());
@@ -278,7 +278,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andNe() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.ne("id", 1);
 		where.build((query, params) -> {
 			assertEquals("id != ?", query.trim());
@@ -307,7 +307,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andNeAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.ne("ALIAS", "id", 1);
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id != ?", query.trim());
@@ -336,7 +336,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orNe() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orNe("id", 1);
 		where.build((query, params) -> {
 			assertEquals("id != ?", query.trim());
@@ -365,7 +365,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orNeAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orNe("ALIAS", "id", 1);
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id != ?", query.trim());
@@ -394,7 +394,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andGt() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.gt("id", 1);
 		where.build((query, params) -> {
 			assertEquals("id > ?", query.trim());
@@ -422,7 +422,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andGtAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.gt("ALIAS", "id", 1);
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id > ?", query.trim());
@@ -451,7 +451,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orGt() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orGt("id", 1);
 		where.build((query, params) -> {
 			assertEquals("id > ?", query.trim());
@@ -479,7 +479,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orGtAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orGt("ALIAS", "id", 1);
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id > ?", query.trim());
@@ -508,7 +508,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andGe() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.ge("id", 1);
 		where.build((query, params) -> {
 			assertEquals("id >= ?", query.trim());
@@ -536,7 +536,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andGeAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.ge("ALIAS", "id", 1);
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id >= ?", query.trim());
@@ -565,7 +565,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orGe() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orGe("id", 1);
 		where.build((query, params) -> {
 			assertEquals("id >= ?", query.trim());
@@ -593,7 +593,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orGeAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orGe("ALIAS", "id", 1);
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id >= ?", query.trim());
@@ -623,7 +623,7 @@ public class BaseWhereTest extends TestCase {
 
 	@Test
 	public void andLt() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.lt("id", 1);
 		where.build((query, params) -> {
 			assertEquals("id < ?", query.trim());
@@ -651,7 +651,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andLtAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.lt("ALIAS", "id", 1);
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id < ?", query.trim());
@@ -680,7 +680,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orLt() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orLt("id", 1);
 		where.build((query, params) -> {
 			assertEquals("id < ?", query.trim());
@@ -708,7 +708,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orLtAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orLt("ALIAS", "id", 1);
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id < ?", query.trim());
@@ -737,7 +737,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andLe() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.le("id", 1);
 		where.build((query, params) -> {
 			assertEquals("id <= ?", query.trim());
@@ -765,7 +765,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andLeAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.le("ALIAS", "id", 1);
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id <= ?", query.trim());
@@ -794,7 +794,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orLe() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orLe("id", 1);
 		where.build((query, params) -> {
 			assertEquals("id <= ?", query.trim());
@@ -822,7 +822,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orLeAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orLe("ALIAS", "id", 1);
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id <= ?", query.trim());
@@ -852,7 +852,7 @@ public class BaseWhereTest extends TestCase {
 	@Test
 	public void andIn() {
 		List<Integer> idList = Arrays.asList(5, 10, 2);
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.in("id", idList);
 		where.build((query, params) -> {
 			assertEquals("id IN (?, ?, ?)", query.trim());
@@ -889,7 +889,7 @@ public class BaseWhereTest extends TestCase {
 	@Test
 	public void andInEmpty() {
 		try {
-			Where where = new BaseWhere();
+			Where where = new BasicWhere();
 			where.in("ex", new ArrayList<>());
 			where.build((query, params) -> {});
 			fail("WhereException must be occured");
@@ -902,7 +902,7 @@ public class BaseWhereTest extends TestCase {
 	@Test
 	public void andInAlias() {
 		List<Integer> idList = Arrays.asList(5, 10, 2);
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.in("ALIAS", "id", idList);
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id IN (?, ?, ?)", query.trim());
@@ -939,7 +939,7 @@ public class BaseWhereTest extends TestCase {
 	@Test
 	public void andInAliasEmpty() {
 		try {
-			Where where = new BaseWhere();
+			Where where = new BasicWhere();
 			where.in("ALIAS", "ex", new ArrayList<>());
 			where.build((query, params) -> {});
 			fail("WhereException must be occured");
@@ -951,7 +951,7 @@ public class BaseWhereTest extends TestCase {
 	@Test
 	public void orIn() {
 		List<Integer> idList = Arrays.asList(5, 10, 2);
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orIn("id", idList);
 		where.build((query, params) -> {
 			assertEquals("id IN (?, ?, ?)", query.trim());
@@ -988,7 +988,7 @@ public class BaseWhereTest extends TestCase {
 	@Test
 	public void orInEmpty() {
 		try {
-			Where where = new BaseWhere();
+			Where where = new BasicWhere();
 			where.orIn("ex", new ArrayList<>());
 			where.build((query, params) -> {});
 			fail("WhereException must be occured");
@@ -1001,7 +1001,7 @@ public class BaseWhereTest extends TestCase {
 	@Test
 	public void orInAlias() {
 		List<Integer> idList = Arrays.asList(5, 10, 2);
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orIn("ALIAS", "id", idList);
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id IN (?, ?, ?)", query.trim());
@@ -1038,7 +1038,7 @@ public class BaseWhereTest extends TestCase {
 	@Test
 	public void orInAliasEmpty() {
 		try {
-			Where where = new BaseWhere();
+			Where where = new BasicWhere();
 			where.orIn("ALIAS", "ex", new ArrayList<>());
 			where.build((query, params) -> {});
 			fail("WhereException must be occured");
@@ -1052,7 +1052,7 @@ public class BaseWhereTest extends TestCase {
 	@Test
 	public void andNotIn() {
 		List<Integer> idList = Arrays.asList(5, 10, 2);
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.notIn("id", idList);
 		where.build((query, params) -> {
 			assertEquals("id NOT IN (?, ?, ?)", query.trim());
@@ -1089,7 +1089,7 @@ public class BaseWhereTest extends TestCase {
 	@Test
 	public void andNotInEmpty() {
 		try {
-			Where where = new BaseWhere();
+			Where where = new BasicWhere();
 			where.notIn("ex", new ArrayList<>());
 			where.build((query, params) -> {});
 			fail("WhereException must be occured");
@@ -1102,7 +1102,7 @@ public class BaseWhereTest extends TestCase {
 	@Test
 	public void andNotInAlias() {
 		List<Integer> idList = Arrays.asList(5, 10, 2);
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.notIn("ALIAS", "id", idList);
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id NOT IN (?, ?, ?)", query.trim());
@@ -1139,7 +1139,7 @@ public class BaseWhereTest extends TestCase {
 	@Test
 	public void andNotInAliasEmpty() {
 		try {
-			Where where = new BaseWhere();
+			Where where = new BasicWhere();
 			where.notIn("ALIAS", "ex", new ArrayList<>());
 			where.build((query, params) -> {});
 			fail("WhereException must be occured");
@@ -1151,7 +1151,7 @@ public class BaseWhereTest extends TestCase {
 	@Test
 	public void orNotIn() {
 		List<Integer> idList = Arrays.asList(5, 10, 2);
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orNotIn("id", idList);
 		where.build((query, params) -> {
 			assertEquals("id NOT IN (?, ?, ?)", query.trim());
@@ -1188,7 +1188,7 @@ public class BaseWhereTest extends TestCase {
 	@Test
 	public void orNotInEmpty() {
 		try {
-			Where where = new BaseWhere();
+			Where where = new BasicWhere();
 			where.orNotIn("ex", new ArrayList<>());
 			where.build((query, params) -> {});
 			fail("WhereException must be occured");
@@ -1201,7 +1201,7 @@ public class BaseWhereTest extends TestCase {
 	@Test
 	public void orNotInAlias() {
 		List<Integer> idList = Arrays.asList(5, 10, 2);
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orNotIn("ALIAS", "id", idList);
 		where.build((query, params) -> {
 			assertEquals("ALIAS.id NOT IN (?, ?, ?)", query.trim());
@@ -1238,7 +1238,7 @@ public class BaseWhereTest extends TestCase {
 	@Test
 	public void orNotInAliasEmpty() {
 		try {
-			Where where = new BaseWhere();
+			Where where = new BasicWhere();
 			where.orNotIn("ALIAS", "ex", new ArrayList<>());
 			where.build((query, params) -> {});
 			fail("WhereException must be occured");
@@ -1250,7 +1250,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andBeginWith() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.beginWith("name", "h");
 		where.build((query, params) -> {
 			assertEquals("name LIKE ?", query.trim());
@@ -1278,7 +1278,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andBeginWithAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.beginWith("ALIAS", "name", "h");
 		where.build((query, params) -> {
 			assertEquals("ALIAS.name LIKE ?", query.trim());
@@ -1307,7 +1307,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orBeginWith() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orBeginWith("name", "h");
 		where.build((query, params) -> {
 			assertEquals("name LIKE ?", query.trim());
@@ -1335,7 +1335,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orBeginWithAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orBeginWith("ALIAS", "name", "h");
 		where.build((query, params) -> {
 			assertEquals("ALIAS.name LIKE ?", query.trim());
@@ -1364,7 +1364,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andEndsWith() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.endsWith("name", "h");
 		where.build((query, params) -> {
 			assertEquals("name LIKE ?", query.trim());
@@ -1392,7 +1392,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andEndsWithAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.endsWith("ALIAS", "name", "h");
 		where.build((query, params) -> {
 			assertEquals("ALIAS.name LIKE ?", query.trim());
@@ -1421,7 +1421,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orEndsWith() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orEndsWith("name", "h");
 		where.build((query, params) -> {
 			assertEquals("name LIKE ?", query.trim());
@@ -1449,7 +1449,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orEndsWithAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orEndsWith("ALIAS", "name", "h");
 		where.build((query, params) -> {
 			assertEquals("ALIAS.name LIKE ?", query.trim());
@@ -1478,7 +1478,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andContains() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.contains("name", "h");
 		where.build((query, params) -> {
 			assertEquals("name LIKE ?", query.trim());
@@ -1506,7 +1506,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void andContainsAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.contains("ALIAS", "name", "h");
 		where.build((query, params) -> {
 			assertEquals("ALIAS.name LIKE ?", query.trim());
@@ -1535,7 +1535,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orContains() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orContains("name", "h");
 		where.build((query, params) -> {
 			assertEquals("name LIKE ?", query.trim());
@@ -1563,7 +1563,7 @@ public class BaseWhereTest extends TestCase {
 	
 	@Test
 	public void orContainsAlias() {
-		Where where = new BaseWhere();
+		Where where = new BasicWhere();
 		where.orContains("ALIAS", "name", "h");
 		where.build((query, params) -> {
 			assertEquals("ALIAS.name LIKE ?", query.trim());
