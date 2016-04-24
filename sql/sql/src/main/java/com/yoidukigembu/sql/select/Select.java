@@ -17,7 +17,7 @@ import com.yoidukigembu.sql.where.Where;
 public interface Select<T> {
 	
 	public static <T> Select<T> from(Class<T> entityClass) {
-		return from(entityClass, "T");
+		return from(entityClass, null);
 	}
 	
 	public static <T> Select<T> from(Class<T> entityClass, String alias) {
