@@ -10,6 +10,8 @@ import com.yoidukigembu.sql.entity.DummyEntity;
 import com.yoidukigembu.sql.enums.OrderType;
 import com.yoidukigembu.sql.orderBy.OrderBy;
 import com.yoidukigembu.sql.select.Select;
+import com.yoidukigembu.sql.where.BasicWhere;
+import com.yoidukigembu.sql.where.Where;
 
 import junit.framework.TestCase;
 
@@ -121,5 +123,28 @@ public class SelectTest extends TestCase {
 			assertEquals("SELECT * FROM schema.dummy ORDER BY id DESC, name ASC, gender DESC", sql);
 			assertEquals(0, params.size());
 		});
+	}
+	
+	@Test
+	public void WHEREのテスト() {
+		Where where = new BasicWhere();
+		where.eq("id", 1)
+			.contains("name", "h")
+			.ge("age", 20)
+			.in("type", Arrays.asList(5, 94));
+		Select<DummyEntity> select = Select.from(DummyEntity.class)
+				.where(where);
+		
+		select.generate((query, params) -> {
+			assertEquals("SELECT * FROM schema.dummy WHERE id = ? AND name LIKE ? AND age >= ? AND type IN (?, ?)", query.trim());
+			assertEquals(5, params.size());
+			assertEquals(1, params.get(0));
+			assertEquals("%h%", params.get(1));
+			assertEquals(20, params.get(2));
+			assertEquals(5, params.get(3));
+			assertEquals(94, params.get(4));
+		});
+		
+			
 	}
 }
