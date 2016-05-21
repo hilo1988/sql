@@ -81,10 +81,16 @@ public interface Select<T> {
 	/**
 	 * SQL文を生成
 	 */
-	public void generate(QueryGenerator generator);
+	public <RESULT> RESULT generate(QueryGenerator<RESULT> generator);
+	
+	/**
+	 * カウント用SQL文を生成
+	 * @param generator
+	 */
+	public Long generateCount(QueryGenerator<Long> generator);
 	
 	@FunctionalInterface
-	public interface QueryGenerator {
-		public void generate(String sql, List<Object> params);
+	public interface QueryGenerator<RESULT> {
+		public RESULT generate(String sql, List<Object> params);
 	}
 }

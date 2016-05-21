@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.yoidukigembu.sql.orderBy.OrderBy;
 import com.yoidukigembu.sql.select.Select;
 import com.yoidukigembu.sql.where.Where;
@@ -111,7 +113,7 @@ public class SelectImpl<T> implements Select<T> {
 	
 	
 	@Override
-	public void generate(QueryGenerator generator) {
+	public <RESULT> RESULT generate(QueryGenerator<RESULT> generator) {
 		this.params = new ArrayList<>();
 		
 		StringBuilder sql = new StringBuilder("SELECT ");
@@ -134,7 +136,19 @@ public class SelectImpl<T> implements Select<T> {
 		
 		addOffset(sql);
 		
-		generator.generate(sql.toString(), params);
+		return generator.generate(sql.toString(), params);
+	}
+	
+	@Override
+	public Long generateCount(QueryGenerator<Long> generator) {
+		return this.generate((sql, params) -> {
+			StringBuilder sb = new StringBuilder("SELECT COUNT(*) FROM (");
+			sb.append(sql)
+				.append(") _C");
+			
+			return generator.generate(sb.toString(), params);
+		});
+		
 	}
 	
 	/**

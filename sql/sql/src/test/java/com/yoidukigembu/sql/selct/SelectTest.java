@@ -24,6 +24,7 @@ public class SelectTest extends TestCase {
 			.generate((sql, params) -> {
 				assertEquals("SELECT * FROM schema.dummy", sql);
 				assertEquals(0, params.size());
+				return null;
 			});
 	}
 
@@ -33,6 +34,7 @@ public class SelectTest extends TestCase {
 			.generate((sql, params) -> {
 				assertEquals("SELECT alias.* FROM schema.dummy alias", sql);
 				assertEquals(0, params.size());
+				return null;
 			});
 	}
 
@@ -43,6 +45,7 @@ public class SelectTest extends TestCase {
 			.generate((sql, params) -> {
 				assertEquals("SELECT id FROM schema.dummy", sql);
 				assertEquals(0, params.size());
+				return null;
 			});
 
 		Select.from(DummyEntity.class)
@@ -50,6 +53,7 @@ public class SelectTest extends TestCase {
 			.generate((sql, params) -> {
 				assertEquals("SELECT id FROM schema.dummy", sql);
 				assertEquals(0, params.size());
+				return null;
 			});
 	}
 	
@@ -61,6 +65,7 @@ public class SelectTest extends TestCase {
 			.generate((sql, params) -> {
 				assertEquals("SELECT id, name, address, mailAddress FROM schema.dummy", sql);
 				assertEquals(0, params.size());
+				return null;
 			});
 
 		Select.from(DummyEntity.class)
@@ -68,6 +73,7 @@ public class SelectTest extends TestCase {
 			.generate((sql, params) -> {
 				assertEquals("SELECT id, name, address, mailAddress FROM schema.dummy", sql);
 				assertEquals(0, params.size());
+				return null;
 			});
 	}
 	
@@ -78,6 +84,7 @@ public class SelectTest extends TestCase {
 			.generate((sql, params) -> {
 				assertEquals("SELECT * FROM schema.dummy LIMIT 10", sql);
 				assertEquals(0, params.size());
+				return null;
 			});
 	}
 	
@@ -88,6 +95,7 @@ public class SelectTest extends TestCase {
 		.generate((sql, params) -> {
 			assertEquals("SELECT * FROM schema.dummy OFFSET 10", sql);
 			assertEquals(0, params.size());
+			return null;
 		});
 	}
 	
@@ -98,6 +106,7 @@ public class SelectTest extends TestCase {
 			.generate((sql, params) -> {
 				assertEquals("SELECT * FROM schema.dummy ORDER BY id", sql);
 				assertEquals(0, params.size());
+				return null;
 			});
 		
 		
@@ -106,6 +115,7 @@ public class SelectTest extends TestCase {
 			.generate((sql, params) -> {
 				assertEquals("SELECT * FROM schema.dummy ORDER BY id ASC", sql);
 				assertEquals(0, params.size());
+				return null;
 			});
 		
 		Select.from(DummyEntity.class)
@@ -113,6 +123,7 @@ public class SelectTest extends TestCase {
 			.generate((sql, params) -> {
 				assertEquals("SELECT * FROM schema.dummy ORDER BY id DESC", sql);
 				assertEquals(0, params.size());
+				return null;
 			});
 		
 		Select.from(DummyEntity.class)
@@ -122,6 +133,7 @@ public class SelectTest extends TestCase {
 		.generate((sql, params) -> {
 			assertEquals("SELECT * FROM schema.dummy ORDER BY id DESC, name ASC, gender DESC", sql);
 			assertEquals(0, params.size());
+			return null;
 		});
 	}
 	
@@ -143,6 +155,7 @@ public class SelectTest extends TestCase {
 			assertEquals(20, params.get(2));
 			assertEquals(5, params.get(3));
 			assertEquals(94, params.get(4));
+			return null;
 		});
 		
 			
