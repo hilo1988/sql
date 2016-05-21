@@ -117,7 +117,8 @@ public class SelectImpl<T> implements Select<T> {
 		StringBuilder sql = new StringBuilder("SELECT ");
 		sql.append(createColumn())
 			.append(" FROM ");
-		schema.map(s -> s.concat("."))
+		schema.filter(s -> StringUtils.isNotBlank(s))
+			.map(s -> s.concat("."))
 				.ifPresent(s -> sql.append(s));
 		sql.append(tableName);
 		
